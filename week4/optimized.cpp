@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
-#include <limits>
 #include <iomanip>
+#include <limits>
 
 using namespace std;
-using namespace std::chrono;
+using namespace chrono;
 
 class LCG {
 private:
@@ -25,7 +25,7 @@ public:
 
 int64_t max_subarray_sum(int n, uint64_t seed, int min_val, int max_val) {
     LCG lcg(seed);
-    vector<int64_t> random_numbers(n);
+    vector<int> random_numbers(n);
     for (int i = 0; i < n; ++i) {
         random_numbers[i] = lcg.next() % (max_val - min_val + 1) + min_val;
     }
@@ -33,7 +33,7 @@ int64_t max_subarray_sum(int n, uint64_t seed, int min_val, int max_val) {
     int64_t max_sum = numeric_limits<int64_t>::min();
     int64_t current_sum = 0;
     for (int i = 0; i < n; ++i) {
-        current_sum = max(current_sum + random_numbers[i], random_numbers[i]);
+        current_sum = max(static_cast<int64_t>(random_numbers[i]), current_sum + random_numbers[i]);
         max_sum = max(max_sum, current_sum);
     }
     return max_sum;
